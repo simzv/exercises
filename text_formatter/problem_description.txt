@@ -1,0 +1,41 @@
+Для мобильных приложений, работающих с вышеописанным сервисом, важно красиво форматировать текст.
+Текст книги или статьи может состоять из нескольких строк произвольной длины,
+и менеджер предлагает разбивать их на абзацы и юстифицировать, то есть оформлять
+в виде текста шириной в N (20–120) символов, выравнивая по правой и по левой границе.
+Ширину строки следует увеличивать за счет добавления пробелов — по одному начиная с правого края.
+Окончанием абзаца считается строка, которая заканчивается соответствующими знаками препинания.
+Новые абзацы должны начинаться с красной строки в четыре пробела.
+Абзац из одной строки длиной менее половины N — это заголовок, его юстифицировать не нужно.
+
+Пример
+
+Входной текст:
+--------------------------------------------------------------------------------
+Lorem ipsum
+ 
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
+laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse 
+cillum dolore eu fugiat nulla pariatur. 
+Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+--------------------------------------------------------------------------------
+
+Выходной текст:
+--------------------------------------------------------------------------------
+    Lorem ipsum
+    Lorem ipsum dolor sit amet, consectetur adipisicing  elit,  sed  do  eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut  enim  ad  minim  veniam,
+quis nostrud  exercitation  ullamco  laboris  nisi  ut  aliquip  ex  ea  commodo
+consequat. Duis aute irure  dolor  in  reprehenderit  in  voluptate  velit  esse
+cillum dolore eu fugiat nulla pariatur.
+    Excepteur sint occaecat cupidatat non proident, sunt in  culpa  qui  officia
+deserunt mollit anim id est laborum.
+--------------------------------------------------------------------------------
+
+Напишите программу на Python, решающую эту задачу. Программа должна запускаться
+из командной строки и принимать на вход два аргумента: имя входного файла и имя
+выходного файла. Она также должна работать с текстами в кодировке UTF-8 и уметь
+обрабатывать разнообразные тексты, например такие и такие. (Обратите внимание
+на нюансы — при работе с реальными текстами их много.) Важна не только
+работоспособность и правильность выполнения программы, но и читабельность кода
+эффективность и скорость работы.
