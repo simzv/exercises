@@ -15,7 +15,7 @@ class BasicTests(unittest.TestCase):
     
     def test_empty_formatter(self):
         out = self.formatter.get_lines()
-        self.assertIsNone(out)
+        self.assertEqual(out, [])
 
     def test_header_with_ending_sign(self):
         header = "Header!\n"
@@ -27,7 +27,7 @@ class BasicTests(unittest.TestCase):
         header = "Header\n"
         self.formatter.parse_line(header)
         out = self.formatter.get_lines()
-        self.assertIsNone(out)
+        self.assertEqual(out, [])
         self.formatter.parse_line('\n')
         out = self.formatter.get_lines()
         self.assertEqual([" "*self.tabsize + header], out)
@@ -46,7 +46,7 @@ class BasicTests(unittest.TestCase):
                          "    consectetur    adipisicing    elit\n")
         self.formatter.parse_line(line)
         out = self.formatter.get_lines()
-        self.assertIsNone(out)
+        self.assertEqual(out, [])
         self.formatter.parse_line('\n')
         out = self.formatter.get_lines()
         self.assertEqual([expected_line], out)
@@ -63,7 +63,7 @@ class BasicTests(unittest.TestCase):
         line = "lorem ipsum dolor sit amet, consectetur adipisicing elit\n"
         self.formatter.parse_line(line)
         out = self.formatter.get_lines()
-        self.assertIsNone(out)
+        self.assertEqual(out, [])
         self.formatter.parse_line('\n')
         out = self.formatter.get_lines()
         self.assertEqual([line], out)
@@ -78,7 +78,7 @@ class BasicTests(unittest.TestCase):
                                 " magna aliqua.\n")
         self.formatter.parse_line(first_line)
         out = self.formatter.get_lines()
-        self.assertIsNone(out)
+        self.assertEqual(out, [])
         self.formatter.parse_line(second_line)
         out = self.formatter.get_lines()
         self.assertEqual([expected_first_line, expected_second_line], out)

@@ -261,10 +261,12 @@ class Formatter(object):
         and build new ready line (False by default).
         Use flush=True if there is nothing more to parse (e.g. at the end of
         a text.)
+
+        Return a list of formatted lines (may be empty).
         """
         if flush:
             self._flush()
-        new_lines = None
+        new_lines = []
         if self._ready_lines:
             new_lines = self._ready_lines
             self._ready_lines = []
@@ -294,6 +296,5 @@ if __name__ == '__main__':
                         dst.write(out_line)
 
             out_lines = formatter.get_lines(flush=True)
-            if out_lines:
-                for out_line in out_lines:
-                    dst.write(out_line)
+            for out_line in out_lines:
+                dst.write(out_line)
