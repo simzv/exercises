@@ -52,32 +52,53 @@ class Formatter(object):
         self.non_utf8_detected = False
 
     def _get_utf8_symbol_length(self, raw_line, cursor):
-        symbol_len = 0  # non utf-8 symbol
+        """
+        Inner method for optimistic utf-8 symbols detecting.
+
+        Arguments are:
+        * raw_line -- non-formatted text line that is currently being parsing;
+        * cursor -- integer that points to the first byte of the symbol.
+
+        Returns integer value - length in bytes of the curent symbol.
+        Also may mark text as utf-8 or non-utf-8 encoded.
+        """
+        symbol_len = 1
         if not self.non_utf8_detected:
+            # The text may be encoded in utf-8
             max_len = min(4, len(raw_line) - cursor)
             symbol_code = ord(raw_line[cursor])
+            # first byte min value, first byte max value, symbol length
             utf8_definitions = (
                 (0b11000000, 0b11011111, 2),
                 (0b11100000, 0b11101111, 3),
                 (0b11110000, 0b11110111, 4),
             )
             if symbol_code <= 127:
+                # valid utf-8 symbol, but also valid non-utf8
+                # text will not be marked
                 symbol_len = 1
             else:
+                # possibly multibyte utf-8 symbol
+                # check all definitions
                 for d in utf8_definitions:
                     if d[2] <= max_len and d[0] <= symbol_code <= d[1]:
+                        # first byte is valid, and we got symbol length
                         symbol_len = d[2]
                         if not self.utf8_detected:
+                            # if text was not previously marked as utf-8
+                            # check the rest of the symbol's bytes
                             for i in range(d[2]-1):
                                 next_code = ord(raw_line[cursor+i+1])
                                 if not 0b10000000 <= next_code <= 0b10111111:
-                                    symbol_len = 0
+                                    # symol byte is not valid
+                                    # mart text as non-utf8
+                                    self.non_utf8_detected = True
+                                    symbol_len = 1
                                     break
+                            if not self.non_utf8_detected:
                                 self.utf8_detected = True
                         break
-        if symbol_len == 0:
-            self.non_utf8_detected = True
-            symbol_len = 1
+
         return symbol_len
 
     def parse_line(self, raw_line):
